@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 	"text/template"
+
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -16,9 +18,13 @@ var (
 
 func init() {
 
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
 	mongoURI = os.Getenv("MONGO_URI")
 	tomtomAPIKey = os.Getenv("TOMTOM_API_KEY")
 	port = os.Getenv("PORT")
+
 }
 
 func main() {
