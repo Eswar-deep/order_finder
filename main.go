@@ -66,8 +66,10 @@ func main() {
 		http.ServeFile(w, r, "map.html")
 	})
 
+	fmt.Println("Starting server at port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Println("Error starting server:", err)
-		fmt.Println("Started server at port 8080")
+	} else {
+		fmt.Println("Server started successfully at port 8080")
 	}
 }
