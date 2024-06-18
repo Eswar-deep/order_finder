@@ -72,4 +72,5 @@ func main() {
 	} else {
 		fmt.Println("Server started successfully at port 8080")
 	}
+	fmt.Println("After ListenAndServe")
 }
