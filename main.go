@@ -80,8 +80,8 @@ func main() {
 		http.ServeFile(w, r, "map.html")
 	})
 
-	fmt.Println("Starting server at port 8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		fmt.Println("Error starting server:", err)
+	fmt.Printf("Starting server at port %s\n", port)
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
+		fmt.Printf("Error starting server: %v\n", err)
 	}
 }
