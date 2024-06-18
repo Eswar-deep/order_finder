@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"text/template"
 )
@@ -23,9 +24,15 @@ func main() {
 		tmpl, err := template.ParseFiles("index.html")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Printf("Failed to parse template: %v", err)
 			return
 		}
 		tmpl.Execute(w, nil)
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			log.Printf("Failed to execute template: %v", err)
+			return
+		}
 	})
 
 	http.HandleFunc("/submit", func(w http.ResponseWriter, r *http.Request) {
@@ -69,8 +76,5 @@ func main() {
 	fmt.Println("Starting server at port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Println("Error starting server:", err)
-	} else {
-		fmt.Println("Server started successfully at port 8080")
 	}
-	fmt.Println("After ListenAndServe")
 }
