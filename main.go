@@ -4,14 +4,26 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"text/template"
 )
 
-const mongoURI = "mongodb://mongo:eSFmYQgVMdmYjtwAzXgLKiLEVRDRWmCX@viaduct.proxy.rlwy.net:54410"
+var (
+	mongoURI     string
+	tomtomAPIKey string
+	port         string
+)
 
-const tomtomAPIKey = "N2NWaw1sogQ3oT2Rhn2GBTIuWnwIEckT"
+func init() {
 
-// super
+	mongoURI = os.Getenv("mongodb://mongo:eSFmYQgVMdmYjtwAzXgLKiLEVRDRWmCX@viaduct.proxy.rlwy.net:54410")
+	tomtomAPIKey = os.Getenv("N2NWaw1sogQ3oT2Rhn2GBTIuWnwIEckT")
+	port = os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+}
+
 func main() {
 
 	err := connectToMongoDB(mongoURI, "nokasa", "orders")
@@ -28,11 +40,6 @@ func main() {
 			return
 		}
 		tmpl.Execute(w, nil)
-		if err != nil {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			log.Printf("Failed to execute template: %v", err)
-			return
-		}
 	})
 
 	http.HandleFunc("/submit", func(w http.ResponseWriter, r *http.Request) {
