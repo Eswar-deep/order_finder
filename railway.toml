@@ -7,4 +7,5 @@
 [env]
   MONGO_URI = "mongodb://mongo:eSFmYQgVMdmYjtwAzXgLKiLEVRDRWmCX@viaduct.proxy.rlwy.net:54410"
   TOMTOM_API_KEY = "N2NWaw1sogQ3oT2Rhn2GBTIuWnwIEckT"
+  GOOGLE_MAPS_API_KEY="AIzaSyA1Rz_xGPNYMO7WyP1wYdVzVoMOCO_UUtQ"
   PORT = "8080"

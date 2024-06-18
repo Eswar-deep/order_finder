@@ -35,9 +35,9 @@
         function initializeMap() {
             const urlParams = new URLSearchParams(window.location.search);
             const lat = parseFloat(urlParams.get('lat'));
-            const lon = parseFloat(urlParams.get('lon'));
+            const lng = parseFloat(urlParams.get('lng'));
 
-            if (isNaN(lat) || isNaN(lon)) {
+            if (isNaN(lat) || isNaN(lng)) {
                 console.error("Invalid coordinates provided.");
                 return;
             }
@@ -46,12 +46,12 @@
             const map = tt.map({
                 key: "N2NWaw1sogQ3oT2Rhn2GBTIuWnwIEckT",
                 container: "map",
-                center: [lon, lat],
+                center: [lng, lat],
                 zoom: 15
             });
 
             const marker = new tt.Marker()
-                .setLngLat([lon, lat])
+                .setLngLat([lng, lat])
                 .addTo(map);
         }
     </script>

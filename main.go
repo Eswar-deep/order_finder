@@ -12,7 +12,7 @@ import (
 
 var (
 	mongoURI     string
-	tomtomAPIKey string
+	googleAPIKey string
 	port         string
 )
 
@@ -22,7 +22,7 @@ func init() {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 	mongoURI = os.Getenv("MONGO_URI")
-	tomtomAPIKey = os.Getenv("TOMTOM_API_KEY")
+	googleAPIKey = os.Getenv("GOOGLE_MAPS_API_KEY")
 	port = os.Getenv("PORT")
 
 }
@@ -76,7 +76,7 @@ func main() {
 			return
 		}
 
-		http.Redirect(w, r, fmt.Sprintf("/map?lat=%f&lon=%f", coords.Lat, coords.Lon), http.StatusSeeOther)
+		http.Redirect(w, r, fmt.Sprintf("/map?lat=%f&lng=%f", coords.Lat, coords.Lng), http.StatusSeeOther)
 	})
 
 	http.HandleFunc("/map", func(w http.ResponseWriter, r *http.Request) {

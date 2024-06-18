@@ -9,37 +9,45 @@ import (
 
 type Coordinates struct {
 	Lat float64 `json:"lat"`
-	Lon float64 `json:"lon"`
+	Lng float64 `json:"lng"`
 }
 
 func geocodeAddress(address string) (Coordinates, error) {
-	addressEncoded := url.QueryEscape(address)
-	url := fmt.Sprintf("https://api.tomtom.com/search/2/geocode/%s.json?key=%s", addressEncoded, tomtomAPIKey)
+	apiKey := googleAPIKey
+	if apiKey == "" {
+		return Coordinates{}, fmt.Errorf("Google Maps API key is not set")
+	}
 
-	resp, err := http.Get(url)
+	addressEncoded := url.QueryEscape(address)
+	apiURL := fmt.Sprintf("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s", addressEncoded, apiKey)
+
+	resp, err := http.Get(apiURL)
 	if err != nil {
-		return Coordinates{}, fmt.Errorf("error making request to TomTom API: %v", err)
+		return Coordinates{}, fmt.Errorf("error making request to Google Maps API: %v", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return Coordinates{}, fmt.Errorf("error response from TomTom API: %s", resp.Status)
+		return Coordinates{}, fmt.Errorf("error response from Google Maps API: %s", resp.Status)
 	}
 
 	var result struct {
 		Results []struct {
-			Position Coordinates `json:"position"`
+			Geometry struct {
+				Location Coordinates `json:"location"`
+			} `json:"geometry"`
 		} `json:"results"`
+		Status string `json:"status"`
 	}
 
 	err = json.NewDecoder(resp.Body).Decode(&result)
 	if err != nil {
-		return Coordinates{}, fmt.Errorf("error decoding TomTom API response: %v", err)
+		return Coordinates{}, fmt.Errorf("error decoding Google Maps API response: %v", err)
 	}
 
-	if len(result.Results) == 0 {
-		return Coordinates{}, fmt.Errorf("no results found for address")
+	if result.Status != "OK" || len(result.Results) == 0 {
+		return Coordinates{}, fmt.Errorf("no results found for address: %s", address)
 	}
 
-	return result.Results[0].Position, nil
+	return result.Results[0].Geometry.Location, nil
 }
