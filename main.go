@@ -16,12 +16,9 @@ var (
 
 func init() {
 
-	mongoURI = os.Getenv("mongodb://mongo:eSFmYQgVMdmYjtwAzXgLKiLEVRDRWmCX@viaduct.proxy.rlwy.net:54410")
-	tomtomAPIKey = os.Getenv("N2NWaw1sogQ3oT2Rhn2GBTIuWnwIEckT")
+	mongoURI = os.Getenv("MONGO_URI")
+	tomtomAPIKey = os.Getenv("TOMTOM_API_KEY")
 	port = os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
 }
 
 func main() {

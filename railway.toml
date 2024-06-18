@@ -1,5 +1,10 @@
+[env]
+MONGO_URI="mongodb://mongo:eSFmYQgVMdmYjtwAzXgLKiLEVRDRWmCX@viaduct.proxy.rlwy.net:54410"
+TOMTOM_API_KEY="N2NWaw1sogQ3oT2Rhn2GBTIuWnwIEckT"
+PORT=8080
+
 [build]
-  buildCommand = "go build -o out main.go mongo.go maps.go"
+buildCommand = "go build -o out main.go mongo.go maps.go"
 
 [start]
-  startCommand = "./out"
+startCommand = "./out"
