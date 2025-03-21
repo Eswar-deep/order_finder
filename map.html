@@ -1,59 +1,73 @@
 <!DOCTYPE html>
-<html class="use-all-space">
+<html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta charset="UTF-8" />
-    <title>My Map</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps.css"
-    />
-    <style>
-        #map {
-            width: 100vw;
-            height: 100vh;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>All Orders Map</title>
+  <style>
+    html, body, #map {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .title {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 10px 20px;
+      z-index: 1;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      font-family: sans-serif;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div id="map" class="map"></div>
-    <script>
-        // Load the TomTom Maps JS SDK
-        const script = document.createElement('script');
-        script.src = "https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps-web.min.js";
-        script.onload = function() {
-            console.log("TomTom Maps JS loaded successfully.");
-            initializeMap();
-        };
-        script.onerror = function() {
-            console.error("Failed to load TomTom Maps JS.");
-        };
-        document.body.appendChild(script);
+  <div class="title">📦 All Orders</div>
+  <div id="map"></div>
 
-        function initializeMap() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const lat = parseFloat(urlParams.get('lat'));
-            const lng = parseFloat(urlParams.get('lng'));
+  <script>
+    async function fetchOrders() {
+      const res = await fetch("https://l2rvzc3yel.execute-api.us-east-1.amazonaws.com/dev/orders");
+      return await res.json();
+    }
 
-            if (isNaN(lat) || isNaN(lng)) {
-                console.error("Invalid coordinates provided.");
-                return;
-            }
+    async function initMap() {
+      const orders = await fetchOrders();
 
-            tt.setProductInfo("Your App Name", "1.0");
-            const map = tt.map({
-                key: "N2NWaw1sogQ3oT2Rhn2GBTIuWnwIEckT",
-                container: "map",
-                center: [lng, lat],
-                zoom: 15
-            });
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 3,
+        center: { lat: 20.0, lng: 0.0 }
+      });
 
-            const marker = new tt.Marker()
-                .setLngLat([lng, lat])
-                .addTo(map);
+      orders.forEach(order => {
+        const lat = parseFloat(order.lat);
+        const lng = parseFloat(order.lng);
+        if (lat && lng) {
+          const marker = new google.maps.Marker({
+            position: { lat, lng },
+            map,
+            title: order.name
+          });
+
+          const infoWindow = new google.maps.InfoWindow({
+            content: `<strong>${order.name}</strong><br>${order.address}`
+          });
+
+          marker.addListener("click", () => {
+            infoWindow.open(map, marker);
+          });
         }
-    </script>
+      });
+    }
+  </script>
+
+  <!-- Replace YOUR_API_KEY with your Google Maps JS API key -->
+  <script async
+    defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiIXz7w4BvSNLQwI4dY2JqEG7algCrm1c&callback=initMap">
+  </script>
 </body>
 </html>

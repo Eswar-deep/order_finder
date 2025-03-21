@@ -15,7 +15,7 @@ type Coordinates struct {
 func geocodeAddress(address string) (Coordinates, error) {
 	apiKey := googleAPIKey
 	if apiKey == "" {
-		return Coordinates{}, fmt.Errorf("Google Maps API key is not set")
+		return Coordinates{}, fmt.Errorf("google Maps API key is not set")
 	}
 
 	addressEncoded := url.QueryEscape(address)
