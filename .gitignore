@@ -3,6 +3,7 @@ bootstrap
 main
 main.exe
 out/
+.bin/
 
 # Ignore system files
 .DS_Store
