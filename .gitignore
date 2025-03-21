@@ -1,0 +1,16 @@
+# Ignore build files
+bootstrap
+main
+main.exe
+out/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore AWS serverless artifacts
+.serverless/
+node_modules/
+
+# Ignore environment files
+.env
