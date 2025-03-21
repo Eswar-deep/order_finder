@@ -24,10 +24,10 @@ Customers can place orders, and admins can view all orders on an **interactive m
 ## 🖼️ Screenshots
 
 ### 📝 Customer Order Form
-![Order Form](https://raw.githubusercontent.com/your-username/order_finder/main/Screenshot%202025-03-21%20053402.png)
+![Order Form](https://raw.githubusercontent.com/Eswar-deep/order_finder/main/Screenshot%202025-03-21%20053402.png)
 
 ### 🌍 Order Map Dashboard
-![Order Map](https://raw.githubusercontent.com/your-username/order_finder/main/Screenshot%202025-03-21%20053429.png)
+![Order Map](https://raw.githubusercontent.com/Eswar-deep/order_finder/main/Screenshot%202025-03-21%20053429.png)
 
 ---
 
